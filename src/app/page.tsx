@@ -8,7 +8,8 @@ export default function Home() {
       <Image src={logoImage} alt="Logo site" priority={true} quality={100} />
       <div className="">
         <form>
-          <Input />
+          <Input type="text" placeholder="Digite seu e-mail" />
+          <Input type="password" placeholder="Digite sua senha" />
         </form>
       </div>
     </div>
