@@ -11,10 +11,16 @@ export default function Home() {
   const { signIn } = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault()
+
+    if (email === '' || password === '') {
+      alert('Preencha os Dados')
+      return
+    }
+
     const data = {
       email,
       password,
@@ -24,10 +30,10 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
+    <div className="flex min-h-screen flex-col items-center justify-center">
       <Image src={logoImage} alt="Logo site" priority={true} quality={100} />
-      <div className="mt-8 w-[90%] sm:w-[600px] flex flex-col py-8 px-6 justify-center items-center">
-        <form onSubmit={handleLogin} className="w-full flex flex-col">
+      <div className="mt-8 flex w-[90%] flex-col items-center justify-center px-6 py-8 sm:w-[600px]">
+        <form onSubmit={handleLogin} className="flex w-full flex-col">
           <Input
             type="text"
             placeholder="Digite seu e-mail"
@@ -45,7 +51,7 @@ export default function Home() {
           </Button>
         </form>
         <Link
-          className="text-white mt-4 cursor-pointer text-sm"
+          className="mt-4 cursor-pointer text-sm text-white"
           href="/cadastro"
         >
           Não possui uma conta ? Cadastre-se

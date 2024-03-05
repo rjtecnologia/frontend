@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image'
 import Link from 'next/link'
 import logoImage from '../../../public/logo.svg'
@@ -6,11 +7,11 @@ import Button from '@/components/ui/button'
 
 export default function Cadastro() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center">
+    <div className="flex min-h-screen flex-col items-center justify-center">
       <Image src={logoImage} alt="Logo site" priority={true} quality={100} />
-      <div className="mt-8 w-[90%] sm:w-[600px] flex flex-col py-8 px-6 justify-center items-center">
-        <h1 className="text-white text-2xl font-bold mb-4">Criar uma conta</h1>
-        <form className="w-full flex flex-col">
+      <div className="mt-8 flex w-[90%] flex-col items-center justify-center px-6 py-8 sm:w-[600px]">
+        <h1 className="mb-4 text-2xl font-bold text-white">Criar uma conta</h1>
+        <form className="flex w-full flex-col">
           <Input type="text" placeholder="Digite seu nome" />
           <Input type="text" placeholder="Digite seu e-mail" />
           <Input type="password" placeholder="Digite sua senha" />
@@ -18,7 +19,7 @@ export default function Cadastro() {
             Cadastrar
           </Button>
         </form>
-        <Link className="text-white mt-4 cursor-pointer text-sm" href="/">
+        <Link className="mt-4 cursor-pointer text-sm text-white" href="/">
           Possui uma conta ? Faça seu login
         </Link>
       </div>

@@ -1,5 +1,8 @@
 'use client'
 import { createContext, ReactNode, useState } from 'react'
+import { destroyCookie, setCookie } from 'nookies'
+import { useRouter } from 'next/navigation'
+import { api } from '@/services/apiClient'
 
 type SignInProps = {
   email: string
@@ -16,6 +19,7 @@ type AuthContextData = {
   user: UserProps | undefined
   isAuthenticated: boolean
   signIn: (credentials: SignInProps) => Promise<void>
+  signOut: () => void
 }
 
 type AuthProviderProps = {
@@ -24,15 +28,51 @@ type AuthProviderProps = {
 
 export const AuthContext = createContext({} as AuthContextData)
 
-async function signIn({ email, password }: SignInProps) {
-  alert('Login')
+export function signOut() {
+  try {
+    destroyCookie(undefined, '@nextauth_token')
+  } catch (error) {
+    console.log('Erro ao deslogar ' + error)
+  }
 }
 
 export default function AuthProvider({ children }: AuthProviderProps) {
+  const router = useRouter()
   const [user, setUser] = useState<UserProps>()
   const isAuthenticated = !!user
+
+  async function signIn({ email, password }: SignInProps) {
+    try {
+      const response = await api(
+        'session',
+        'POST',
+        JSON.stringify({
+          email,
+          password,
+        }),
+      )
+
+      const { id, name, token } = response
+
+      setCookie(undefined, '@nextauth_token', token, {
+        maxAge: 60 * 60 * 24 * 30, // expira em 1 mes
+        path: '/',
+      })
+
+      setUser({
+        id,
+        name,
+        email,
+      })
+
+      router.push('/dashboard')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   )
