@@ -9,6 +9,12 @@ type SignInProps = {
   password: string
 }
 
+type SignUpProps = {
+  name: string
+  email: string
+  password: string
+}
+
 type UserProps = {
   id: string
   name: string
@@ -70,6 +76,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       console.log(err)
     }
   }
+
+  async function SignUp({ name, email, password }: SignUpProps) {}
 
   return (
     <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>

@@ -1,4 +1,3 @@
-// import { signOut } from '../contexts/AuthContext'
 import { parseCookies } from 'nookies'
 
 export async function setupAPIClient(
