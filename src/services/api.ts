@@ -1,17 +1,14 @@
-import { parseCookies } from 'nookies'
-
 export async function setupAPIClient(
   input: string | URL | Request,
   method: string,
   body: BodyInit,
-  ctx = undefined,
+  token: string,
 ) {
-  const cokkies = parseCookies(ctx)
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${input}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${cokkies}`,
+      Authorization: `Bearer ${token}`,
     },
     body,
   })

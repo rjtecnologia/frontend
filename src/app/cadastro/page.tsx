@@ -4,9 +4,12 @@ import Link from 'next/link'
 import logoImage from '../../../public/logo.svg'
 import { Input } from '@/components/ui/Input'
 import Button from '@/components/ui/button'
-import { FormEvent, useState } from 'react'
+import { FormEvent, useContext, useState } from 'react'
+import { AuthContext } from '@/contexts/AuthContext'
+import { toast } from 'react-toastify'
 
 export default function Cadastro() {
+  const { signUp } = useContext(AuthContext)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -16,7 +19,7 @@ export default function Cadastro() {
     event.preventDefault()
 
     if (name === '' || email === '' || password === '') {
-      alert('Preencha os campos')
+      toast.warning('Preencha todos os campos')
       return
     }
 
@@ -27,6 +30,10 @@ export default function Cadastro() {
       email,
       password,
     }
+
+    await signUp(data)
+
+    setLoading(false)
   }
 
   return (

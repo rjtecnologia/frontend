@@ -1,8 +1,9 @@
 'use client'
 import { createContext, ReactNode, useState } from 'react'
-import { destroyCookie, setCookie } from 'nookies'
 import { useRouter } from 'next/navigation'
 import { api } from '@/services/apiClient'
+import { toast } from 'react-toastify'
+import { setCookie, deleteCookie } from 'cookies-next'
 
 type SignInProps = {
   email: string
@@ -26,6 +27,7 @@ type AuthContextData = {
   isAuthenticated: boolean
   signIn: (credentials: SignInProps) => Promise<void>
   signOut: () => void
+  signUp: (credentials: SignUpProps) => Promise<void>
 }
 
 type AuthProviderProps = {
@@ -36,9 +38,9 @@ export const AuthContext = createContext({} as AuthContextData)
 
 export function signOut() {
   try {
-    destroyCookie(undefined, '@nextauth_token')
-  } catch (error) {
-    console.log('Erro ao deslogar ' + error)
+    deleteCookie('@nextauth_token')
+  } catch (err) {
+    toast.error('Erro ao deslogar usuário ' + err)
   }
 }
 
@@ -56,11 +58,17 @@ export default function AuthProvider({ children }: AuthProviderProps) {
           email,
           password,
         }),
+        '',
       )
 
       const { id, name, token } = response
 
-      setCookie(undefined, '@nextauth_token', token, {
+      if (id === '' || id === undefined) {
+        toast.error('Usuário ou senhas incorretos')
+        return
+      }
+
+      setCookie('@nextauth_token', token, {
         maxAge: 60 * 60 * 24 * 30, // expira em 1 mes
         path: '/',
       })
@@ -71,16 +79,41 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         email,
       })
 
+      toast.success('Seja Bem-Vindo - ' + name)
+
       router.push('/dashboard')
     } catch (err) {
-      console.log(err)
+      if (err instanceof Error) {
+        toast.error('Error ao na requisição')
+      }
+      toast.error('Error ' + err)
     }
   }
 
-  async function SignUp({ name, email, password }: SignUpProps) {}
+  async function signUp({ name, email, password }: SignUpProps) {
+    try {
+      await api(
+        'users',
+        'POST',
+        JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      )
+
+      toast.success('Cadastro realizado com sucesso')
+
+      router.push('/')
+    } catch (err) {
+      toast.success('Erro ao cadastrar usuário ' + err)
+    }
+  }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, signIn, signOut, signUp }}
+    >
       {children}
     </AuthContext.Provider>
   )
