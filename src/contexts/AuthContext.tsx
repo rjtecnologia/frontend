@@ -3,7 +3,7 @@ import { createContext, ReactNode, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { api } from '@/services/apiClient'
 import { toast } from 'react-toastify'
-import { setCookie, deleteCookie } from 'cookies-next'
+import { setCookie, destroyCookie } from 'nookies'
 
 type SignInProps = {
   email: string
@@ -38,7 +38,7 @@ export const AuthContext = createContext({} as AuthContextData)
 
 export function signOut() {
   try {
-    deleteCookie('@nextauth_token')
+    destroyCookie(undefined, '@nextauth_token')
   } catch (err) {
     toast.error('Erro ao deslogar usuário ' + err)
   }
@@ -58,7 +58,6 @@ export default function AuthProvider({ children }: AuthProviderProps) {
           email,
           password,
         }),
-        '',
       )
 
       const { id, name, token } = response
@@ -68,7 +67,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         return
       }
 
-      setCookie('@nextauth_token', token, {
+      setCookie(undefined, '@nextauth_token', token, {
         maxAge: 60 * 60 * 24 * 30, // expira em 1 mes
         path: '/',
       })
