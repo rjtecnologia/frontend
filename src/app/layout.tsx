@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import AuthProvider from '@/contexts/AuthContext'
 import { ToastContainer } from 'react-toastify'
+import { Auth } from './teste/auth'
 import 'react-toastify/dist/ReactToastify.css'
 
 // const inter = Inter({ subsets: ['latin'] })
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-dark-700">
         <AuthProvider>
+          <Auth />
           {children}
           <ToastContainer autoClose={3000} />
         </AuthProvider>
