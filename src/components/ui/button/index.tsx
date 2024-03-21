@@ -9,13 +9,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export default function Button({ loading, children, ...rest }: ButtonProps) {
   return (
     <button
-      className="flex justify-center items-center bg-red-900 border-none p-2 text-white rounded-lg hover:brightness-110 transition duration-200 ease-in h-10 text-lg"
+      className="flex h-10 items-center justify-center rounded-lg border-none bg-red-900 p-2 text-lg text-white transition duration-200 ease-in hover:brightness-110"
       disabled={loading}
       {...rest}
     >
       {loading ? (
         <FaSpinner
-          className="text-white animate-spin cursor-not-allowed"
+          className="animate-spin cursor-not-allowed text-white"
           size={16}
         />
       ) : (

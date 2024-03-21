@@ -1,16 +1,18 @@
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { ReactNode } from 'react'
 
-type CookieTokenProps = {
-  value: string
+type AuthProps = {
+  children: ReactNode
 }
 
-export function Auth() {
+export default async function Auth({ children }: AuthProps) {
   const token = cookies().get('@nextauth_token')?.value
 
   if (token) {
+    console.log('teste')
     return redirect('/dashboard')
   } else {
-    return redirect('/')
+    return <div>{children}</div>
   }
 }
