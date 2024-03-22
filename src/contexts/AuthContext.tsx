@@ -1,9 +1,9 @@
 'use client'
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { api } from '@/services/apiClient'
 import { toast } from 'react-toastify'
-import { setCookie, destroyCookie } from 'nookies'
+import { setCookie, destroyCookie, parseCookies } from 'nookies'
 
 type SignInProps = {
   email: string
@@ -48,6 +48,32 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter()
   const [user, setUser] = useState<UserProps>()
   const isAuthenticated = !!user
+
+  async function refreshUser() {
+    const response = await api('me', 'GET')
+
+    if (response !== undefined) {
+      const { id, name, email } = response
+
+      setUser({
+        id,
+        name,
+        email,
+      })
+    }
+  }
+
+  useEffect(() => {
+    const { '@nextauth_token': token } = parseCookies()
+
+    if (token) {
+      refreshUser().catch(() => {
+        signOut()
+        router.push('/')
+        toast.error('Token invalido ou expirado')
+      })
+    }
+  }, [router])
 
   async function signIn({ email, password }: SignInProps) {
     try {

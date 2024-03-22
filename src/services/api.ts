@@ -5,7 +5,7 @@ const { '@nextauth_token': token } = parseCookies()
 export async function setupAPIClient(
   input: string | URL | Request,
   method: string,
-  body: BodyInit,
+  body?: BodyInit,
 ) {
   const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${input}`, {
     method,
@@ -16,7 +16,6 @@ export async function setupAPIClient(
     body,
   })
     .then((response) => {
-      console.log(token)
       return response.json()
     })
     .catch((err) => {
