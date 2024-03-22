@@ -36,14 +36,6 @@ type AuthProviderProps = {
 
 export const AuthContext = createContext({} as AuthContextData)
 
-export function signOut() {
-  try {
-    destroyCookie(undefined, '@nextauth_token')
-  } catch (err) {
-    toast.error('Erro ao deslogar usuário ' + err)
-  }
-}
-
 export default function AuthProvider({ children }: AuthProviderProps) {
   const router = useRouter()
   const [user, setUser] = useState<UserProps>()
@@ -69,11 +61,11 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     if (token) {
       refreshUser().catch(() => {
         signOut()
-        router.push('/')
         toast.error('Token invalido ou expirado')
       })
     }
-  }, [router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function signIn({ email, password }: SignInProps) {
     try {
@@ -132,6 +124,15 @@ export default function AuthProvider({ children }: AuthProviderProps) {
       router.push('/')
     } catch (err) {
       toast.success('Erro ao cadastrar usuário ' + err)
+    }
+  }
+
+  function signOut() {
+    try {
+      destroyCookie(undefined, '@nextauth_token')
+      router.push('/')
+    } catch (err) {
+      toast.error('Erro ao deslogar usuário ' + err)
     }
   }
 

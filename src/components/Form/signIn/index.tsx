@@ -1,22 +1,21 @@
 'use client'
 import Link from 'next/link'
-import { Input } from '@/components/ui/input'
-import Button from '@/components/ui/button'
+import { Input } from '@/components/ui/Input'
+import Button from '@/components/ui/Button'
 import { FormEvent, useContext, useState } from 'react'
 import { AuthContext } from '@/contexts/AuthContext'
 import { toast } from 'react-toastify'
 
-export default function FormSignUp() {
-  const { signUp } = useContext(AuthContext)
-  const [name, setName] = useState('')
+export default function FormSignIn() {
+  const { signIn } = useContext(AuthContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
-  async function handleSignUp(event: FormEvent) {
+  async function handleLogin(event: FormEvent) {
     event.preventDefault()
 
-    if (name === '' || email === '' || password === '') {
+    if (email === '' || password === '') {
       toast.warning('Preencha todos os campos')
       return
     }
@@ -24,26 +23,18 @@ export default function FormSignUp() {
     setLoading(true)
 
     const data = {
-      name,
       email,
       password,
     }
 
-    await signUp(data)
+    await signIn(data)
 
     setLoading(false)
   }
 
   return (
     <div className="mt-8 flex w-[90%] flex-col items-center justify-center px-6 py-8 sm:w-[600px]">
-      <h1 className="mb-4 text-2xl font-bold text-white">Criar uma conta</h1>
-      <form className="flex w-full flex-col" onSubmit={handleSignUp}>
-        <Input
-          type="text"
-          placeholder="Digite seu nome"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+      <form onSubmit={handleLogin} className="flex w-full flex-col">
         <Input
           type="text"
           placeholder="Digite seu e-mail"
@@ -56,12 +47,12 @@ export default function FormSignUp() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit" loading={loading}>
-          Cadastrar
+        <Button type="submit" disabled={loading}>
+          Acessar
         </Button>
       </form>
-      <Link className="mt-4 cursor-pointer text-sm text-white" href="/">
-        Possui uma conta ? Faça seu login
+      <Link className="mt-4 cursor-pointer text-sm text-white" href="/signup">
+        Não possui uma conta ? Cadastre-se
       </Link>
     </div>
   )
