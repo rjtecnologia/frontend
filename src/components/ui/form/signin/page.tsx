@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Input } from '../../Input'
+import { Input } from '../../input'
 import Button from '../../button'
 import { FormEvent, useContext, useState } from 'react'
 import { AuthContext } from '@/contexts/AuthContext'
