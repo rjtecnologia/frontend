@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import logoImage from '../../public/logo.svg'
-import FormSignIn from '@/components/Form/signIn'
+import FormSignIn from '@/components/Form/SignIn'
 import { canSSRGuest } from './utils/canSSR'
 
 export default function Home() {

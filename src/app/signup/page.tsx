@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import logoImage from '../../../public/logo.svg'
-import FormSignUp from '@/components/Form/signUp'
+import FormSignUp from '@/components/Form/SignUp'
 import { canSSRGuest } from '../utils/canSSR'
 
 export default function SignUp() {

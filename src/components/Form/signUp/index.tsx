@@ -57,7 +57,7 @@ export default function FormSignUp() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit" loading={loading}>
-          Cadastrar
+          <a className="text-white">Cadastrar</a>
         </Button>
       </form>
       <Link className="mt-4 cursor-pointer text-sm text-white" href="/">

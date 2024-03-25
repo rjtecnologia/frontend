@@ -48,7 +48,7 @@ export default function FormSignIn() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button type="submit" disabled={loading}>
-          Acessar
+          <a className="text-white">Acessar</a>
         </Button>
       </form>
       <Link className="mt-4 cursor-pointer text-sm text-white" href="/signup">
