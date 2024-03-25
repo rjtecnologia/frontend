@@ -1,7 +1,10 @@
 import FormCategory from '@/components/Form/Category'
 import Header from '@/components/Header'
+import { canSSRAuth } from '../utils/canSSR'
 
 export default function Category() {
+  canSSRAuth()
+
   return (
     <div>
       <Header />

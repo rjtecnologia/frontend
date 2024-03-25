@@ -13,25 +13,21 @@ export default function FormCategory() {
 
     if (categoryName === '') {
       toast.warning('Informe um nome para a categoria')
+      return
     }
 
-    await api(
+    const response = await api(
       'category',
       'POST',
       JSON.stringify({
         name: categoryName,
       }),
     )
-      .then((response) => {
-        if (response.status === 400) {
-          alert('Teste')
-        } else {
-          console.log(response)
-        }
-      })
-      .catch(() => {
-        toast.warning('Esta categoria já esta cadastrada')
-      })
+
+    if (response?.id === undefined) {
+      toast.warning('Categoria já esta cadastrada')
+      return
+    }
 
     toast.success('Categoria cadastrada com sucesso')
   }
