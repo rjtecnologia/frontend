@@ -57,7 +57,9 @@ export default function FormProduct({
           )}
         </label>
 
-        {children}
+        <select className="mb-4 h-10 rounded-lg border border-solid border-gray-100 bg-dark-900 px-4 text-white placeholder-opacity-80">
+          {children}
+        </select>
 
         <Input placeholder="Digite o nome do produto" />
 

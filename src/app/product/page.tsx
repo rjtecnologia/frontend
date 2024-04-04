@@ -1,7 +1,7 @@
 import Header from '@/components/Header'
 import { canSSRAuth } from '../utils/canSSR'
 import FormProduct from '@/components/Form/Product'
-import Select from '@/components/ui/Select'
+import Select from '@/app/product/components/Option'
 
 export default function Product() {
   canSSRAuth()

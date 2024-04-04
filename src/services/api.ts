@@ -2,25 +2,23 @@ import { parseCookies } from 'nookies'
 
 const { '@nextauth_token': token } = parseCookies()
 
-export async function setupAPIClient(
+export async function fetchWrapper(
   input: string | URL | Request,
   method: string,
-  body?: BodyInit,
+  body?: BodyInit | undefined,
+  cache?: RequestCache | undefined,
 ) {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${input}`, {
+  const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${input}`, {
     method,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
     body,
+    cache,
   })
-    .then((response) => {
-      return response.json()
-    })
-    .catch((err) => {
-      return Promise.reject(err)
-    })
+
+  const data = result.json()
 
   return data
 }

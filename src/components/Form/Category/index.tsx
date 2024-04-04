@@ -1,7 +1,7 @@
 'use client'
 import Button from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { api } from '@/services/apiClient'
+import { fetchWrapper } from '@/services/api'
 import { FormEvent, useState } from 'react'
 import { toast } from 'react-toastify'
 
@@ -16,7 +16,7 @@ export default function FormCategory() {
       return
     }
 
-    const response = await api(
+    const response = await fetchWrapper(
       'category',
       'POST',
       JSON.stringify({

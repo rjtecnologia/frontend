@@ -1,9 +1,9 @@
 'use client'
 import { createContext, ReactNode, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { api } from '@/services/apiClient'
 import { toast } from 'react-toastify'
 import { setCookie, destroyCookie, parseCookies } from 'nookies'
+import { fetchWrapper } from '@/services/api'
 
 type SignInProps = {
   email: string
@@ -42,7 +42,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = !!user
 
   async function refreshUser() {
-    const response = await api('me', 'GET')
+    const response = await fetchWrapper('me', 'GET')
 
     if (response !== undefined) {
       const { id, name, email } = response
@@ -56,7 +56,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function Teste() {
-    const response = await api('listcategory', 'GET')
+    const response = await fetchWrapper('listcategory', 'GET')
     console.log(response)
   }
 
@@ -74,7 +74,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   async function signIn({ email, password }: SignInProps) {
     try {
-      const response = await api(
+      const response = await fetchWrapper(
         'session',
         'POST',
         JSON.stringify({
@@ -114,7 +114,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   async function signUp({ name, email, password }: SignUpProps) {
     try {
-      await api(
+      await fetchWrapper(
         'users',
         'POST',
         JSON.stringify({
