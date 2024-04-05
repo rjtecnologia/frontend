@@ -55,14 +55,8 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
-  async function Teste() {
-    const response = await fetchWrapper('listcategory', 'GET')
-    console.log(response)
-  }
-
   useEffect(() => {
     const { '@nextauth_token': token } = parseCookies()
-    Teste()
     if (token) {
       refreshUser().catch(() => {
         signOut()

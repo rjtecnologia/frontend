@@ -11,7 +11,6 @@ export async function fetchWrapper(
   const result = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/${input}`, {
     method,
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
     body,
